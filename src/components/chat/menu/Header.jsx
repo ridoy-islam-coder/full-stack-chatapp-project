@@ -2,7 +2,8 @@
 import { useContext } from "react";
 import { AuthContext } from "../../../context/AccountProvider";
 import { Box ,styled} from "@mui/material";
-import { Chat as MessageIcon , MoreVert} from '@mui/icons-material';
+import { Chat as MessageIcon } from '@mui/icons-material';
+import HeaderManu from "./HeaderManu";
 
 
 
@@ -49,7 +50,7 @@ const Image = styled('img')`
             <Image src={account.picture} alt="profile" />
             <Wrapper> 
             <MessageIcon />
-            <MoreVert />
+            <HeaderManu />
             </Wrapper>
          </Component>
         </>
