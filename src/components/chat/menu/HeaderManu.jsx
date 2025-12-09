@@ -50,8 +50,6 @@ const handleClick=(e)=>{
         }}
       >
         <MenuOption onClick={()=>{handleClose();setOpenDrawer(true)}}>Profile</MenuOption>
-        <MenuOption onClick={handleClose}>Profile</MenuOption>
-        <MenuOption onClick={handleClose}>My account</MenuOption>
         <MenuOption onClick={handleClose}>Logout</MenuOption>
       </Menu>
         </>
