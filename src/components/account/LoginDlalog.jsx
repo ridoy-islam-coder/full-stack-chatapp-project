@@ -5,6 +5,7 @@ import { qrCodeImage } from '../../constants/data';
 import { AuthContext } from '../../context/AccountProvider';
 
 import { jwtDecode } from "jwt-decode";
+import { addUser } from '../../service/api';
 
 const Component = styled(Box)`
     display: flex;
@@ -54,9 +55,10 @@ const {setAccount} = useContext(AuthContext);
 
 
 
-   const onLoginSuccess=(res)=>{
+   const onLoginSuccess=async(res)=>{
     const decoded = jwtDecode(res.credential);
     setAccount(decoded);
+    await addUser(decoded);
 
    }
 
