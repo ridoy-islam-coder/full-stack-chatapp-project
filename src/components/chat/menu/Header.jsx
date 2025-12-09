@@ -59,7 +59,7 @@ const [openDrawer, setOpenDrawer] = useState(false);
             <Image src={account.picture} alt="profile" onClick={() => toggleDrawer()} />
             <Wrapper> 
             <MessageIcon />
-            <HeaderManu />
+            <HeaderManu setOpenDrawer={setOpenDrawer} />
             </Wrapper>
          </Component>
          <InfoDrawer open={openDrawer} setOpen={setOpenDrawer} />
