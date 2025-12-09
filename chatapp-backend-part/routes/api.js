@@ -16,6 +16,13 @@ router.post("/CodeVerify", UsersController.CodeVerify)
 router.post("/ResetPassword", UsersController.ResetPassword)
 
 
+//google-login
+
+router.post("/google-login", UsersController.googleLogin)
+
+
+
+
 
 
 

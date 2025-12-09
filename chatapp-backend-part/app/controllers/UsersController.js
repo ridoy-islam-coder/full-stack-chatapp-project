@@ -1,12 +1,13 @@
-import UsersModel from "../model/UsersModel.js";
+import { RegisteredUser} from "../model/UsersModel.js";
 import {TokenEncode} from "../utility/tokenUtility.js";
 import SendEmail from "../utility/emailUtility.js";
+import { GoogleUser } from "../model/googleloginmodel.js";
 
 export const Registration=async(req,res)=>{
 
     try {
         let reqBody=req.body;
-        await UsersModel.create(reqBody)
+        await registered.create(reqBody)
         return res.json({status:"success","Message":"User registered successfully"})
     }
     catch (e) {
@@ -22,7 +23,7 @@ export const Registration=async(req,res)=>{
 export const Login=async(req,res)=>{
     try {
         let reqBody=req.body;
-        let data=await UsersModel.findOne(reqBody)
+        let data=await registered.findOne(reqBody)
 
         if(data==null){
             return res.json({status:"fail","Message":"User not found"})
@@ -43,7 +44,7 @@ export const Login=async(req,res)=>{
 export const ProfileDetails=async(req,res)=>{
     try {
         let user_id=req.headers['user_id']
-        let data=await UsersModel.findOne({"_id":user_id})
+        let data=await registered.findOne({"_id":user_id})
         return res.json({status:"success",message:"User profile successfully",data:data})
     }
     catch (e) {
@@ -60,7 +61,7 @@ export const ProfileUpdate=async(req,res)=>{
     try {
         let reqBody=req.body;
         let user_id=req.headers['user_id']
-        await UsersModel.updateOne({"_id":user_id},reqBody)
+        await registered.updateOne({"_id":user_id},reqBody)
         return res.json({status:"success","Message":"User Update successfully"})
     }
     catch (e) {
@@ -81,7 +82,7 @@ export const ProfileUpdate=async(req,res)=>{
 export const EmailVerify=async(req,res)=>{
 try {
     let email=req.params.email;
-    let data=await UsersModel.findOne({email: email})
+    let data=await registered.findOne({email: email})
     if(data==null){
         return res.json({status:"fail","Message":"User email does not exist"})
     }
@@ -95,7 +96,7 @@ try {
         await SendEmail(EmailTo, EmailText, EmailSubject)
 
         // Update OTP In User
-        await UsersModel.updateOne({email: email},{otp:code})
+        await registered.updateOne({email: email},{otp:code})
         return res.json({status:"success",Message:"Verification successfully,check email"})
 
     }
@@ -109,7 +110,7 @@ export const CodeVerify=async(req,res)=>{
 
     try {
         let reqBody=req.body;
-        let data=await UsersModel.findOne({email: reqBody['email'],otp:reqBody['otp']})
+        let data=await registered.findOne({email: reqBody['email'],otp:reqBody['otp']})
         if(data==null){
             return res.json({status:"fail","Message":"Wrong Verification Code"})
         }
@@ -128,13 +129,13 @@ export const ResetPassword=async(req,res)=>{
 
     try {
         let reqBody=req.body;
-        let data=await UsersModel.findOne({email: reqBody['email'],otp:reqBody['otp']})
+        let data=await registered.findOne({email: reqBody['email'],otp:reqBody['otp']})
         if(data==null){
             return res.json({status:"fail","Message":"Wrong Verification Code"})
         }
         else {
 
-           await UsersModel.updateOne({email: reqBody['email']},{
+           await registered.updateOne({email: reqBody['email']},{
                 otp:"0", password:reqBody['password'],
            })
             return res.json({status:"success",Message:"Password Reset successfully"})
@@ -149,3 +150,64 @@ export const ResetPassword=async(req,res)=>{
 
 
 
+
+
+
+//googleLogin
+// export const googleLogin = async (req, res) => {
+//     try {
+       
+//      const exist = await UsersModel.findOne({ sub: req.body.sub });
+      
+//      if (exist) {
+//          res.status(200).json({ Msg: "User already exist" });
+//          return;
+//      }
+  
+//         const user = new UsersModel(req.body);
+//         await user.save();
+       
+//         res.status(200).json(user);
+
+//     } catch (error) {
+//         res.status(500).json(error.message);
+//     }
+// };
+
+
+
+export const googleLogin = async (req, res) => {
+    try {
+
+        const googleData = req.body;
+
+        // STEP 1: Google user exist check
+        let googleUser = await GoogleUser.findOne({ sub: googleData.sub });
+
+        if (!googleUser) {
+            googleUser = await GoogleUser.create(googleData);
+        }
+
+        // STEP 2: Check already registered user
+        let registered = await RegisteredUser.findOne({ userId: googleUser._id });
+
+        if (!registered) {
+            registered = await RegisteredUser.create({
+                userId: googleUser._id,
+                name: googleUser.name,
+                email: googleUser.email,
+                picture: googleUser.picture
+            });
+        }
+
+        return res.status(200).json({
+            message: "Login Successful",
+            googleUser,
+            registeredUser: registered
+        });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: error.message });
+    }
+};
