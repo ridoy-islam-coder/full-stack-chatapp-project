@@ -1,9 +1,10 @@
 
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../../context/AccountProvider";
 import { Box ,styled} from "@mui/material";
 import { Chat as MessageIcon } from '@mui/icons-material';
 import HeaderManu from "./HeaderManu";
+import InfoDrawer from "../../Drawer/InfoDrawer";
 
 
 
@@ -41,18 +42,27 @@ const Image = styled('img')`
     border-radius:50%;
 `;
 
-
+const [openDrawer, setOpenDrawer] = useState(false);
 
     const { account } = useContext(AuthContext);
+
+   const toggleDrawer = () => {
+        setOpenDrawer(true);
+    }
+
+
+
+
     return (
         <>
          <Component>
-            <Image src={account.picture} alt="profile" />
+            <Image src={account.picture} alt="profile" onClick={() => toggleDrawer()} />
             <Wrapper> 
             <MessageIcon />
             <HeaderManu />
             </Wrapper>
          </Component>
+         <InfoDrawer open={openDrawer} setOpen={setOpenDrawer} />
         </>
     );
 };
