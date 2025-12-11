@@ -30,11 +30,12 @@ import mongoose from "mongoose";
 
 const RegisteredUserSchema = new mongoose.Schema(
     {
-        userId: { type: mongoose.Schema.Types.ObjectId, ref: "google_users", required: true },
+        userId: { type: mongoose.Schema.Types.ObjectId, ref: "google_users"},
         name: { type: String, required: true },
         email: { type: String, required: true },
         picture: { type: String },
-
+        password: { type: String },
+        otp:{type:String,default:0},
         role: { type: String, default: "user" },
         status: { type: String, default: "active" }
     },

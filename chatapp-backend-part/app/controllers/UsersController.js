@@ -1,13 +1,14 @@
-import { RegisteredUser} from "../model/UsersModel.js";
+
 import {TokenEncode} from "../utility/tokenUtility.js";
 import SendEmail from "../utility/emailUtility.js";
 import { GoogleUser } from "../model/googleloginmodel.js";
+import { RegisteredUser } from "../model/UsersModel.js";
 
 export const Registration=async(req,res)=>{
 
     try {
         let reqBody=req.body;
-        await registered.create(reqBody)
+        await RegisteredUser.create(reqBody)
         return res.json({status:"success","Message":"User registered successfully"})
     }
     catch (e) {
@@ -23,7 +24,7 @@ export const Registration=async(req,res)=>{
 export const Login=async(req,res)=>{
     try {
         let reqBody=req.body;
-        let data=await registered.findOne(reqBody)
+        let data=await RegisteredUser.findOne(reqBody)
 
         if(data==null){
             return res.json({status:"fail","Message":"User not found"})
@@ -43,12 +44,12 @@ export const Login=async(req,res)=>{
 
 export const ProfileDetails=async(req,res)=>{
     try {
-        let user_id=req.headers['user_id']
-        let data=await registered.findOne({"_id":user_id})
-        return res.json({status:"success",message:"User profile successfully",data:data})
+        
+        let users=await RegisteredUser.find({}).populate("userId","sub");
+        return res.status(200).json(users)
     }
     catch (e) {
-        return res.json({status:"fail","Message":e.toString()})
+     return res.status(200).json({message:e.toString()})
     }
 }
 
@@ -61,7 +62,7 @@ export const ProfileUpdate=async(req,res)=>{
     try {
         let reqBody=req.body;
         let user_id=req.headers['user_id']
-        await registered.updateOne({"_id":user_id},reqBody)
+        await RegisteredUser.updateOne({"_id":user_id},reqBody)
         return res.json({status:"success","Message":"User Update successfully"})
     }
     catch (e) {
@@ -82,7 +83,7 @@ export const ProfileUpdate=async(req,res)=>{
 export const EmailVerify=async(req,res)=>{
 try {
     let email=req.params.email;
-    let data=await registered.findOne({email: email})
+    let data=await RegisteredUser.findOne({email: email})
     if(data==null){
         return res.json({status:"fail","Message":"User email does not exist"})
     }
@@ -110,7 +111,7 @@ export const CodeVerify=async(req,res)=>{
 
     try {
         let reqBody=req.body;
-        let data=await registered.findOne({email: reqBody['email'],otp:reqBody['otp']})
+        let data=await RegisteredUser.findOne({email: reqBody['email'],otp:reqBody['otp']})
         if(data==null){
             return res.json({status:"fail","Message":"Wrong Verification Code"})
         }
@@ -129,7 +130,7 @@ export const ResetPassword=async(req,res)=>{
 
     try {
         let reqBody=req.body;
-        let data=await registered.findOne({email: reqBody['email'],otp:reqBody['otp']})
+        let data=await RegisteredUser.findOne({email: reqBody['email'],otp:reqBody['otp']})
         if(data==null){
             return res.json({status:"fail","Message":"Wrong Verification Code"})
         }
