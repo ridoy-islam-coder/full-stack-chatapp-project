@@ -13,3 +13,16 @@ export const addUser =async (data) => {
     console.log(error.message);
   }
 };
+
+
+
+
+export const getUsers =async () => {
+ try {
+   const response = await axios.get(`${url}/ProfileDetails`);
+    return response.data;
+
+  } catch (error) {
+    console.log(error.message);
+  }
+};
