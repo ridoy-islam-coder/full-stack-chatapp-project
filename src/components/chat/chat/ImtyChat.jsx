@@ -43,7 +43,7 @@ const ImtyChat = () => {
             <SubTitle>Now send and receive messages without keeping your phone online.</SubTitle>
             <SubTitle>Use WhatsApp on up to 4 linked devices and 1 phone at the same time.</SubTitle>
 
-       <Divider style={{margin:'40px 0', opacity:'0.4'}}/>
+          <Divider style={{margin:'40px 0', opacity:'0.4'}}/>
         </Container>
         </Component>
     );

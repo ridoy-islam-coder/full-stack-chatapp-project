@@ -1,6 +1,9 @@
 import { Box } from '@mui/material';
 import Messages from './Messages';
-import ChatHeadar from './chatHeadar';
+import HeaderFild from './HeaderFild';
+import { useContext } from 'react';
+import { AuthContext } from '../../../context/AccountProvider';
+
 
 
 
@@ -8,10 +11,13 @@ import ChatHeadar from './chatHeadar';
 
 
 const ChatBox = () => {
+const {person}=useContext(AuthContext);
+
+
     return (
-        <Box>
-        <ChatHeadar/>
-        <Messages/>
+        <Box Style={{height: '75%'}}>
+        <HeaderFild  person={person}/>
+        <Messages  person={person}/>
      
         </Box>
     );

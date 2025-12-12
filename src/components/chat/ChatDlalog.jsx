@@ -2,10 +2,23 @@ import { Box, Dialog,styled } from '@mui/material';
 import React from 'react';
 import ImtyChat from './chat/ImtyChat';
 import MenuItem from './menu/MenuItem';
+import ChatBox from './chat/ChatBox';
+import { useContext } from 'react';
+import { AuthContext } from '../../context/AccountProvider';
 
 
 
 const ChatDlalog = () => {
+
+
+    const {person}=useContext(AuthContext);
+
+
+
+
+
+
+
 
 const Component = styled(Box)`
     display: flex;
@@ -42,11 +55,11 @@ const dialogStyle = {
            </LeftComponent>
          
           <RightComponent>
-            <ImtyChat/>
+               {Object.keys(person).length ? <ChatBox/> : <ImtyChat/>}
            </RightComponent>
           </Component>
 
-
+        
 
 
         </Dialog>

@@ -16,7 +16,7 @@ const Component = styled(Box)`
     padding:8px 16px;
     display:flex;
     align-items:center;
-    justify-content:space-between;
+     justify-content:space-between;
   
 `;
 

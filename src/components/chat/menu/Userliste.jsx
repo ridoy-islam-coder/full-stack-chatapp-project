@@ -1,42 +1,7 @@
 import { Box, styled, Typography } from '@mui/material';
 
-
-// const component =styled(Box)`
-// display:flex;
-// padding:13px 0px;
-// height:45px;
-// cursor:pointer;
-
-// `;
-
-// const Image = styled('img')({
-//     width: 50,
-//     height: 50,
-//     objectFit: 'cover',
-//     borderRadius: '50%',
-//     padding: '0 14px'
-// })
-
-
-
-
-// const Userliste = ({user}) => {
-//     return (
-//         <component>
-//             <Box>
-//              <Image src={user.picture} alt="dp" />
-//             </Box>
-//             <Box>
-//              <Box>
-//                <Typography>{user.name}</Typography>
-              
-//             </Box>
-//             </Box>
-//         </component>
-//     );
-// };
-
-// export default Userliste;
+import { AuthContext } from '../../../context/AccountProvider';
+import { useContext } from 'react';
 
 const UserContainer = styled(Box)`
   display: flex;
@@ -79,8 +44,24 @@ const NameText = styled(Typography)`
 // `;
 
 const Userliste = ({ user }) => {
+
+
+ const { setPerson, account, newMessageFlag }  = useContext(AuthContext);
+
+
+
+    const getUser = async () => {
+        setPerson(user);
+       
+    }
+
+
+
+
+
+
   return (
-    <UserContainer>
+    <UserContainer onClick={()=>getUser}>
       <Image src={user.picture} alt="dp" />
       
       <UserInfo>

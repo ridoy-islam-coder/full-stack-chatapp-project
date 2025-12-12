@@ -7,11 +7,15 @@ import Userliste from "./Userliste";
 
 
 const Component = styled(Box)`
-    height: 81vh;
     overflow: overlay;
+    height: 81vh;
 `;
 
-
+const StyledDivider = styled(Divider)`
+    margin: 0 0 0 70px;
+    background-color: #e9edef;
+    opacity: .6;
+`;
 const Conversations = () => {
 
     const [users, setUsers] = useState([]);
