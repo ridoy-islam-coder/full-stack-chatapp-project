@@ -11,11 +11,7 @@ const Component = styled(Box)`
     height: 81vh;
 `;
 
-const StyledDivider = styled(Divider)`
-    margin: 0 0 0 70px;
-    background-color: #e9edef;
-    opacity: .6;
-`;
+
 const Conversations = () => {
 
     const [users, setUsers] = useState([]);
@@ -35,14 +31,14 @@ const Conversations = () => {
     return (
         <Component>
           {
-            users.map(user => (
+            users.filter(user => user.userId).map(user => (
             //    user.email !== account.email &&
               <>
-                 <Userliste user={user} />
-                 <Divider style={{ margin: '0 0 0 67px', backgroundColor: '#e9edef',opacity: '0.6' }} />
+                  <Userliste user={user} />
+                  <Divider style={{ margin: '0 0 0 67px', backgroundColor: '#e9edef',opacity: '0.6' }} />
               </>
-             
-              
+
+
             ))
           }
 

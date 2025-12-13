@@ -6,22 +6,12 @@ const Wrapper = styled(Box)`
     background-size: 50%;
 `;
 
-const StyledFooter = styled(Box)`
-    height: 55px;
-    background: #ededed;
-    // position: absolute;
-    width: 100%;
-    // bottom: 0
-`;
-    
+
 const Component = styled(Box)`
     height: 80vh;
     overflow-y: scroll;
 `;
 
-const Container = styled(Box)`
-    padding: 1px 80px;
-`;
 
 const Messages = () => {
     return (

@@ -4,7 +4,7 @@ import ImtyChat from './chat/ImtyChat';
 import MenuItem from './menu/MenuItem';
 import ChatBox from './chat/ChatBox';
 import { useContext } from 'react';
-import { AuthContext } from '../../context/AccountProvider';
+import  { AuthContext } from '../../context/AccountProvider';
 
 
 

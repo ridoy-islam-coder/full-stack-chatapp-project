@@ -8,7 +8,9 @@ export const AuthContext = createContext(null);
 const AccountProvider = ( { children } ) => {
 
    const [account, setAccount] = useState();
-    const [person, setPerson] = useState({});
+  
+
+   const [person, setPerson] = useState({});
     const [newMessageFlag, setNewMessageFlag] = useState(false);
 
     return (

@@ -2,6 +2,7 @@ import { Box, styled, Typography } from '@mui/material';
 
 import { AuthContext } from '../../../context/AccountProvider';
 import { useContext } from 'react';
+import { setConversation } from '../../../service/api';
 
 const UserContainer = styled(Box)`
   display: flex;
@@ -38,21 +39,18 @@ const NameText = styled(Typography)`
   font-size: 16px;
 `;
 
-// const SubText = styled(Typography)`
-//   font-size: 13px;
-//   color: #555;
-// `;
 
 const Userliste = ({ user }) => {
 
 
- const { setPerson, account, newMessageFlag }  = useContext(AuthContext);
+ const { setPerson, account}  = useContext(AuthContext);
 
-
+// account
 
     const getUser = async () => {
         setPerson(user);
-       
+      const res= await setConversation({senderID: account.sub, receiverID: user.userId.sub})
+      console.log(res);
     }
 
 
@@ -61,7 +59,7 @@ const Userliste = ({ user }) => {
 
 
   return (
-    <UserContainer onClick={()=>getUser}>
+    <UserContainer onClick={()=>getUser()}>
       <Image src={user.picture} alt="dp" />
       
       <UserInfo>

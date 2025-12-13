@@ -1,6 +1,6 @@
 import { MoreVert, Search } from "@mui/icons-material";
 import { Box, styled, Typography } from "@mui/material";
-import { defaultProfilePicture } from "../../../constants/data";
+
 
 
 
@@ -47,7 +47,7 @@ const RightContainer = styled(Box)`
 const HeaderFild = ({person}) => {
     return (
             <Header>
-         <Image src={person.picture || defaultProfilePicture} alt="db" />
+         <Image src={person.picture} alt="db" />
           <Box>
             <Name>{person.name}</Name>
             <Status>status</Status>
