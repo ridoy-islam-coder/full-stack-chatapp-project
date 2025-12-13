@@ -4,6 +4,7 @@ const router = express.Router();
 
 import * as UsersController from "../app/controllers/UsersController.js";
 import AuthMiddleware from "../app/middlewares/AuthMiddleware.js";
+import { getconversation } from "../app/controllers/conversationController.js";
 
 
 
@@ -27,9 +28,8 @@ router.post("/google-login", UsersController.googleLogin)
 // massging
 router.post("/conversation/add",UsersController.newconversation)
 
-
-
-
+// massging
+router.post("/conversation/get",getconversation)
 
 
 
