@@ -13,7 +13,10 @@ const app = express();
 
 
 // App Use Default Middleware
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:3000",
+  credentials: true,
+}));
 
 app.use(express.json({limit:MAX_JSON_SIZE}));
 app.use(express.urlencoded({ extended: URL_ENCODE }));

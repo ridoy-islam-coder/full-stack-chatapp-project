@@ -3,6 +3,7 @@ import {TokenEncode} from "../utility/tokenUtility.js";
 import SendEmail from "../utility/emailUtility.js";
 import { GoogleUser } from "../model/googleloginmodel.js";
 import { RegisteredUser } from "../model/UsersModel.js";
+import { conversationModel } from "../model/conversationModel.js";
 
 export const Registration=async(req,res)=>{
 
@@ -212,3 +213,28 @@ export const googleLogin = async (req, res) => {
         return res.status(500).json({ error: error.message });
     }
 };
+
+
+
+export const newconversation =async (req,res)=>{
+    try{
+        const senderId = req.body.senderID;
+        const receiverId = req.body.receiverID;
+        console.log(senderId,receiverId)
+
+        const exist = await conversationModel.findOne({members:{$all:[receiverId,senderId]}})
+
+        if(exist){
+            return res.status(200).json('conversation already exists')
+        }
+
+        const newConversation = new conversationModel({
+            members:[senderId,receiverId]
+        })
+
+        await newConversation.save();
+        return res.status(200).json('conversation saved successfully')
+    }catch(error){
+        return res.status(500).json(error.message);
+    }
+}

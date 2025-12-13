@@ -6,6 +6,8 @@ import * as UsersController from "../app/controllers/UsersController.js";
 import AuthMiddleware from "../app/middlewares/AuthMiddleware.js";
 
 
+
+
 // Users
 router.post("/Registration", UsersController.Registration)
 router.post("/Login", UsersController.Login)
@@ -21,6 +23,9 @@ router.post("/ResetPassword", UsersController.ResetPassword)
 router.post("/google-login", UsersController.googleLogin)
 
 
+
+// massging
+router.post("/conversation/add",UsersController.newconversation)
 
 
 
