@@ -12,7 +12,7 @@ const Component = styled(Box)`
 `;
 
 
-const Conversations = () => {
+const Conversations = ({text}) => {
 
     const [users, setUsers] = useState([]);
     // const {account}=useContext(AuthContext);
@@ -21,17 +21,18 @@ const Conversations = () => {
    useEffect(() => {
     const fetchData = async () => {
         let response = await getUsers();
-       setUsers(response);
+           let fiteredData = response.filter(user => user.name.toLowerCase().includes(text.toLowerCase()));
+            setUsers(fiteredData);
     }
     fetchData();
-   }, [])   
+   }, [text])   
 
 
 
     return (
         <Component>
           {
-            users.filter(user => user.userId).map(user => (
+            users.filter(user => user.userId && user.name).map(user => (
             //    user.email !== account.email &&
               <>
                   <Userliste user={user} />

@@ -60,7 +60,7 @@ const Userliste = ({ user }) => {
 
   return (
     <UserContainer onClick={()=>getUser()}>
-      <Image src={user.picture} alt="dp" />
+      <Image key={user._id} src={user.picture} alt="dp" />
       
       <UserInfo>
         <NameText>{user.name}</NameText>

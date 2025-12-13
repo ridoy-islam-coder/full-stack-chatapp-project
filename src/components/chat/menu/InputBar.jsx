@@ -42,7 +42,7 @@ font-size:14px;
 
 
 
-const InputBar = () => {
+const InputBar = ({settext}) => {
     return (
         <Component>
             <Wrapper>
@@ -51,7 +51,8 @@ const InputBar = () => {
            </Icon>
           <InputField
             placeholder='Search or start new chat'
-            inputProps={{'aria-label':'search'}}
+            inputProps={{ 'aria-label': 'search' }}
+             onChange={(e)=>settext(e.target.value)}
             />
 
 
