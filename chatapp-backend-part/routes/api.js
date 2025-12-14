@@ -5,6 +5,7 @@ const router = express.Router();
 import * as UsersController from "../app/controllers/UsersController.js";
 import AuthMiddleware from "../app/middlewares/AuthMiddleware.js";
 import { getconversation } from "../app/controllers/conversationController.js";
+import { getMessage, newMessage } from "../app/controllers/newMessageController.js";
 
 
 
@@ -30,6 +31,10 @@ router.post("/conversation/add",UsersController.newconversation)
 
 // massging
 router.post("/conversation/get",getconversation)
+
+// massging
+router.post("/message/add",newMessage)
+router.get("/message/get/:id",getMessage)
 
 
 
