@@ -1,6 +1,6 @@
 import { Box, InputBase, styled } from "@mui/material";
 import {EmojiEmotionsOutlined,AttachFile, Mic} from '@mui/icons-material';
-import { useState } from "react";
+
 
 
 
@@ -36,9 +36,9 @@ const ClipIcon = styled(AttachFile)`
     transform: 'rotate(40deg)'
 `;
 
-const Footer = ({sendtext,setvalue}) => {
+const Footer = ({sendtext,setvalue,value}) => {
 
-    const  [text,settext]=useState('');
+
 
 
 
@@ -47,12 +47,16 @@ const Footer = ({sendtext,setvalue}) => {
     return (
         <Container>
             <EmojiEmotionsOutlined/>
+   
+
             <ClipIcon/>
+             <input type="file" />
             <Search>
                 <InputField
                     placeholder="Type a message"
                     onChange={(e)=>setvalue(e.target.value)}
                     onKeyPress={(e)=>sendtext(e)}
+                    value={value}
                 />
             </Search>
             <Mic/>
