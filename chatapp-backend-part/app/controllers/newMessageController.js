@@ -22,7 +22,7 @@ export const newMessage = async (req,res) => {
 export const getMessage = async (req,res) => {
   try{
     const messages=await MessageModel.find({conversationID:req.params.id});
-    console.log(messages);
+  
     return res.status(200).json(messages)
 
   }catch(error){
