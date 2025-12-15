@@ -11,6 +11,8 @@ import upload from "../app/utility/upload.js";
 
 
 
+
+
 // Users
 router.post("/Registration", UsersController.Registration)
 router.post("/Login", UsersController.Login)
@@ -41,5 +43,4 @@ router.post("/file/uplode",upload.single('file'), uplodeFile)
 
 
 export default router;
-
 

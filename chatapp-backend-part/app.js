@@ -6,7 +6,8 @@ import helmet from "helmet";
 import mongoose from "mongoose";
 import {DATABASE, MAX_JSON_SIZE, PORT, REQUEST_NUMBER, REQUEST_TIME, URL_ENCODE, WEB_CACHE} from "./app/config/config.js";
 import router from "./routes/api.js";
-
+import multer from 'multer'
+import {GridFsStorage} from 'multer-gridfs-storage'
 
 
 const app = express();
@@ -44,13 +45,19 @@ mongoose.connect(DATABASE,{autoIndex:true}).then(()=>{
 
 
 
+
+
+
+
+
+
+
 app.use("/api",router)
 
 
 app.listen(PORT,()=>{
     console.log("Server started on port "+PORT)
 })
-
 
 
 
