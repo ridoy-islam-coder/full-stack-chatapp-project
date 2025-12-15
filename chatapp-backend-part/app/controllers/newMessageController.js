@@ -30,3 +30,24 @@ export const getMessage = async (req,res) => {
   }
 
 }
+
+
+
+const url=" http://localhost:5050/api"
+
+export const  uplodeFile= async (req,res)=>{
+ try{
+
+ if(!req.file){
+     return res.status(404).json('file not foud')
+  }
+ const imageUrl = `${url}/file/${req.file.filename}`
+ return res.status(200).json(imageUrl)
+   
+
+  }catch(error){
+    return res.status(500).json(error.message)
+  }
+
+
+}
