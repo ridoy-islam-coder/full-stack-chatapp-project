@@ -66,3 +66,17 @@ export const getMessage=async(id)=>{
     console.log(error.message);
   }
 }
+
+
+
+
+export const  uplodeFile=async(data)=>{
+   try{
+    return await axios.post(`${url}/file/uplode`,data)
+
+   }catch(error){
+    console.log(error.message);
+  }
+
+
+}

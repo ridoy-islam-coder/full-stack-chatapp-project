@@ -1,6 +1,7 @@
 import { Box, InputBase, styled } from "@mui/material";
 import {EmojiEmotionsOutlined,AttachFile, Mic} from '@mui/icons-material';
 import { useEffect } from "react";
+import { uplodeFile } from "../../../service/api";
 
 
 
@@ -42,7 +43,7 @@ const Footer = ({sendtext,setvalue,value,file,setFile}) => {
 
 useEffect(()=>{
 
-    const  getimge=async()=>{
+    const  getImage = async ()=>{
         if(file){
            const  data= new FormData();
            data.append("name",file.name);
@@ -50,15 +51,11 @@ useEffect(()=>{
            await uplodeFile(data)
 
         }
-        getimge();
+        
     }
 
-
+getImage();
 },[file])
-
-
-
-
 
 
 
