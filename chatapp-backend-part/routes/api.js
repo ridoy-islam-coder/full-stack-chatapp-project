@@ -5,7 +5,7 @@ const router = express.Router();
 import * as UsersController from "../app/controllers/UsersController.js";
 import AuthMiddleware from "../app/middlewares/AuthMiddleware.js";
 import { getconversation } from "../app/controllers/conversationController.js";
-import { getMessage, newMessage, uplodeFile } from "../app/controllers/newMessageController.js";
+import { getImage, getMessage, newMessage, uploadImage } from "../app/controllers/newMessageController.js";
 import upload from "../app/utility/upload.js";
 
 
@@ -13,7 +13,7 @@ import upload from "../app/utility/upload.js";
 
 
 
-// Users
+//Users
 router.post("/Registration", UsersController.Registration)
 router.post("/Login", UsersController.Login)
 router.get("/ProfileDetails",UsersController.ProfileDetails)
@@ -24,7 +24,6 @@ router.post("/ResetPassword", UsersController.ResetPassword)
 
 
 //google-login
-
 router.post("/google-login", UsersController.googleLogin)
 
 
@@ -38,7 +37,8 @@ router.post("/conversation/get",getconversation)
 // massging
 router.post("/message/add",newMessage)
 router.get("/message/get/:id",getMessage)
-router.post("/file/uplode",upload.single('file'), uplodeFile)
+router.post('/file/upload', upload.single('file'), uploadImage);
+router.get('/file/:filename', getImage);
 
 
 
