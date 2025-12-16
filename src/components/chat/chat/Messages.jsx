@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from 'react';
 import { AuthContext  } from '../../../context/AccountProvider';
 import { newMessage,getMessage } from '../../../service/api';
 import Message from './Message';
+import { useRef } from 'react';
 
 
 const Wrapper = styled(Box)`
@@ -28,6 +29,8 @@ const Messages = ({person,conversation}) => {
     const [messages, setMessages] = useState([]);
     const [newMessageFlag,setnewMessageFlag]=useState(false);
     const [file,setFile]=useState();
+    const [image,setImage]=useState('')
+    const  scrollRef=useRef()
 
   useEffect(()=>{
     const getMessageDetails=async()=>{
@@ -37,26 +40,46 @@ const Messages = ({person,conversation}) => {
    conversation._id && getMessageDetails();
   },[person._id,conversation._id,newMessageFlag])
 
+useEffect(()=>{
+  scrollRef.current?.scrollIntoView({ transition: "smooth"})
+  },[messages])
 
 
 
 
-  const sendtext=async(e)=>{
-    const code= e.keyCode || e.which;
-    if(code===13){
-       let message={
-        senderID:account.sub,
-        receiverID:person.userId.sub,
-        conversationID:conversation._id,
-        type:'text',
+const sendtext = async (e) => {
+  const code = e.keyCode || e.which;
+
+  if (code === 13) {
+
+    let message; // ✅ message declare করা হলো
+    const receiverId = person.sub; // ✅ receiverId define
+
+    if (!file) {
+      message = {
+        senderId: account.sub,
+        receiverId: receiverId,
+        conversationId: conversation._id,
+        type: 'text',
         text: value
-       }
+      };
+    } else {
+      message = {
+        senderId: account.sub,
+        receiverId: receiverId,
+        conversationId: conversation._id,
+        type: 'file',
+        text: image
+      };
+    }
+
     await newMessage(message);
     setvalue('');
-    setnewMessageFlag(prev =>!prev)
-    }
-}
-
+    setFile('');
+    setImage('');
+    setnewMessageFlag(prev => !prev);
+  }
+};
 
 
 
@@ -68,7 +91,7 @@ const Messages = ({person,conversation}) => {
               {
                 messages && messages.map(message=>(
 
-                <Container>    
+                <Container  ref={scrollRef}>    
                   <Message message={message}/>
                 </Container>
                 
@@ -76,7 +99,7 @@ const Messages = ({person,conversation}) => {
               }
 
             </Component>
-            <Footer sendtext={sendtext} setvalue={setvalue}  value={value} file={file} setFile={setFile}/>
+            <Footer sendtext={sendtext} setvalue={setvalue}  value={value} file={file} setFile={setFile} setImage={setImage}/>
         </Wrapper>
     );
 };

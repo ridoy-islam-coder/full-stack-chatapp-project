@@ -72,7 +72,7 @@ export const getMessage=async(id)=>{
 
 export const  uplodeFile=async(data)=>{
    try{
-    return await axios.post(`${url}/file/uplode`,data)
+    return await axios.post(`${url}/file/upload`,data)
 
    }catch(error){
     console.log(error.message);

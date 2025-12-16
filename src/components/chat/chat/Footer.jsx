@@ -38,7 +38,7 @@ const ClipIcon = styled(AttachFile)`
     transform: 'rotate(40deg)'
 `;
 
-const Footer = ({sendtext,setvalue,value,file,setFile}) => {
+const Footer = ({sendtext,setvalue,value,file,setFile,setImage}) => {
 
 
 useEffect(()=>{
@@ -48,7 +48,8 @@ useEffect(()=>{
            const  data= new FormData();
            data.append("name",file.name);
            data.append("file",file)
-           await uplodeFile(data)
+          let response= await uplodeFile(data)
+          setImage(response.data)
 
         }
         
