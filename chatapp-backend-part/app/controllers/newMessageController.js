@@ -1,21 +1,65 @@
+import { getIO } from "../../sokit/socket.js";
 import { conversationModel } from "../model/conversationModel.js";
 import { MessageModel } from "../model/MessageModel.js";
 import grid from 'gridfs-stream';
 import mongoose from 'mongoose';
 
 
-export const newMessage = async (req,res) => {
-  try{
-    const newMessage=new MessageModel(req.body);
-    await newMessage.save();
+// export const newMessage = async (req,res) => {
+//   try{
+//     const newMessage=new MessageModel(req.body);
+//     await newMessage.save();
 
-    await conversationModel.findByIdAndUpdate(req.body.conversationID,{message:req.body.text})
-    return res.status(200).json("message has been sent successfully")
-   }catch(error){
-    return res.status(500).json(error.message)
-   }
+//     await conversationModel.findByIdAndUpdate(req.body.conversationID,{message:req.body.text})
+//      // 🔹 socket notify
+//     const io = getIO();
+//     io.emit("getMessage", message);
 
-}
+
+//     return res.status(200).json("message has been sent successfully")
+//    }catch(error){
+//     return res.status(500).json(error.message)
+//    }
+
+// }
+
+
+
+
+export const newMessage = async (req, res) => {
+  try {
+    // ❗ declare message variable
+    const message = {
+      senderId: req.body.senderId,
+      receiverId: req.body.receiverId,
+      conversationID: req.body.conversationID,
+      text: req.body.text,
+      type: req.body.type
+    };
+
+    const newMessageData = new MessageModel(message);
+    await newMessageData.save();
+
+    await conversationModel.findByIdAndUpdate(
+      req.body.conversationID,
+      { message: req.body.text }
+    );
+
+    return res.status(200).json("Message has been sent successfully");
+  } catch (error) {
+    return res.status(500).json(error.message);
+  }
+};
+
+
+
+
+
+
+
+
+
+
 
 
 

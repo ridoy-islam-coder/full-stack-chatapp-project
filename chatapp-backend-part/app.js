@@ -7,7 +7,8 @@ import http from "http";
 import mongoose from "mongoose";
 import { DATABASE, MAX_JSON_SIZE, PORT, REQUEST_NUMBER, REQUEST_TIME, URL_ENCODE, WEB_CACHE } from "./app/config/config.js";
 import router from "./routes/api.js";
-import { initSocket } from "./socket.js"; // ✅ socket import
+import { initSocket } from './sokit/socket.js';
+
 
 const app = express();
 

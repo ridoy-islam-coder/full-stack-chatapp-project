@@ -13,3 +13,16 @@ export const getconversation =async (req,res)=>{
         return res.status(500).json(error.message);
     }
 }
+
+
+
+
+export const saveLocation = async (req, res) => {
+  try {
+    const newLocation = new conversationModel(req.body);
+    await newLocation.save();
+    res.status(200).json("Location saved");
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+};

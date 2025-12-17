@@ -17,7 +17,11 @@ const conversationUserSchema = new mongoose.Schema(
     },
       text: {
         type: String
-    }
+    },
+     location: {
+    lat: { type: Number },
+    lng: { type: Number }
+  }
      
     },
     {
