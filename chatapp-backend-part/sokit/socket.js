@@ -50,65 +50,83 @@
 
 
 
-
 import { Server } from "socket.io";
 
 let io;
-const onlineUsers = new Map();
+let users = [];   // ✅ only ONE source of truth
 
 export const initSocket = (server) => {
   io = new Server(server, {
-    cors: { origin: "http://localhost:3000", credentials: true }
+    cors: { origin: "http://localhost:3000", credentials: true },
   });
+
+  const addUser = (userData, socketId) => {
+    if (!userData || !userData._id) return;
+
+    if (!users.some((u) => u.userId === userData._id)) {
+      users.push({
+        userId: userData._id,
+        socketId,
+        name: userData.name || "",
+      });
+    }
+  };
+
+
+  
+
+  const removeUser = (socketId) => {
+    users = users.filter((u) => u.socketId !== socketId);
+  };
+
+  const getUser = (userId) => {
+    return users.find((u) => u.userId === userId);
+  };
 
   io.on("connection", (socket) => {
     console.log("✅ Socket connected:", socket.id);
 
-    // 🔹 user online
-    socket.on("addUser", (userId) => {
-      onlineUsers.set(userId, socket.id);
-      console.log("🟢 User added:", userId);
-      console.log("💻 Online users:", Array.from(onlineUsers.keys()));
-      io.emit("getOnlineUsers", Array.from(onlineUsers.keys()));
+    // 🔹 add user
+    socket.on("addUser", (userData) => {
+      if (!userData || !userData._id) {
+        console.log("⚠️ Invalid userData:", userData);
+        return;
+      }
+
+      addUser(userData, socket.id);
+      console.log("🟢 User added:", userData._id);
+      console.log("💻 Online users:", users);
+
+      io.emit("getOnlineUsers", users);
     });
 
     // 🔹 send message
     socket.on("sendMessage", (data) => {
-      console.log("✉️ sendMessage event:", data);
-      const receiverSocketId = onlineUsers.get(data.receiverId);
-      if (receiverSocketId) {
-        console.log("📨 Sending message to receiver:", data.receiverId);
-        io.to(receiverSocketId).emit("getMessage", data);
-        io.to(receiverSocketId).emit("getNotification", data);
-      } else {
-        console.log("⚠️ Receiver offline:", data.receiverId);
+      const receiver = getUser(data.receiverId);
+
+      if (receiver) {
+        io.to(receiver.socketId).emit("getMessage", data);
+        io.to(receiver.socketId).emit("getNotification", data);
       }
     });
 
-    // 🔹 share live location
+    // 🔹 share location
     socket.on("shareLocation", (data) => {
-      console.log("📍 shareLocation event:", data);
-      const receiverSocketId = onlineUsers.get(data.receiverId);
-      if (receiverSocketId) {
-        console.log("🗺 Sending location to receiver:", data.receiverId);
-        io.to(receiverSocketId).emit("getLocation", data);
-      } else {
-        console.log("⚠️ Receiver offline, location not sent:", data.receiverId);
+      const receiver = getUser(data.receiverId);
+
+      if (receiver) {
+        io.to(receiver.socketId).emit("getLocation", data);
       }
     });
 
-    // 🔹 user disconnect
+    // 🔹 disconnect
     socket.on("disconnect", () => {
       console.log("❌ Socket disconnected:", socket.id);
-      for (let [userId, socketId] of onlineUsers) {
-        if (socketId === socket.id) {
-          onlineUsers.delete(userId);
-          console.log("🔴 User removed:", userId);
-          break;
-        }
-      }
-      console.log("💻 Online users now:", Array.from(onlineUsers.keys()));
-      io.emit("getOnlineUsers", Array.from(onlineUsers.keys()));
+
+      removeUser(socket.id);
+      console.log("💻 Online users now:", users);
+
+      io.emit("getOnlineUsers", users);
     });
   });
 };
